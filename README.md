@@ -1,5 +1,5 @@
 # extendedmode
-extendedmode is a community edition fork of es_extended and will be maintained by various trusted members of the fivem community.
+extendedmode is a community edition fork of es_extended (better known as ESX) and will be maintained by various trusted members of the FiveM community.
 
 ## Primary goals for this project
 - Allow even versions of ESX scripts pre 1.2 to continue to function with as few edits as possible.
@@ -10,8 +10,16 @@ es_extended is a roleplay framework for FiveM. ESX is short for EssentialMode Ex
 
 ESX was initially developed by Gizz back in 2017 for his friend as the were creating an FiveM server and there wasn't any economy roleplaying frameworks available. The original code was written within a week or two and later open sourced, it has ever since been improved and parts been rewritten to further improve on it.
 
+## Using
+
+Be warned that extendedmode is in ALPHA stages and is **not** ready for production use.
+
+If you already have an ESX installation please see [this]() guide! (coming soon!)
+
 ## Links & Read more
 
+- [Full Documentation](https://extendedmode.github.io) (Work in Progress!)
+- [ESX Migration Guide]() (coming soon!)
 - [FiveM Native Reference](https://runtime.fivem.net/doc/reference.html)
 
 ## Features
@@ -25,63 +33,21 @@ ESX was initially developed by Gizz back in 2017 for his friend as the were crea
 - Easy to use API for developers to easily integrate EX to their projects
 - Register your own commands easily, with argument validation, chat suggestion and using FXServer ACL
 
-## Extendedmode Exclusive Features
-
-We have made some exclusive features for extendedmode only, find them all here; [Functions](FUNCTIONS.md)
+We have also made some exclusive features for extendedmode only, find them all [here](https://extendedmode.github.io/functions/Client%20Functions/)!
 
 ## Requirements
 
-- [mysql-async](https://github.com/brouznouf/fivem-mysql-async)
-- [async](https://github.com/ESX-Org/async)
-
-### Using Git
-
-- cd resources
-- git clone https://github.com/extendedmode/extendedmode extendedmode
-- git clone https://github.com/ESX-Org/esx_menu_default [ex]/[ui]/esx_menu_default
-- git clone https://github.com/ESX-Org/esx_menu_dialog [ex]/[ui]/esx_menu_dialog
-- git clone https://github.com/ESX-Org/esx_menu_list [ex]/[ui]/esx_menu_list
-
-### Manually
-
-- Download https://github.com/extendedmode/extendedmode/releases/latest
-- Put it in the `resource/[extended]` directory
-- Download https://github.com/ESX-Org/esx_menu_default/releases/latest
-- Put it in the `resource/[ex]/[ui]` directory
-- Download https://github.com/ESX-Org/esx_menu_dialog/releases/latest
-- Put it in the `resource/[ex]/[ui]` directory
-- Download https://github.com/ESX-Org/esx_menu_list/releases/latest
-- Put it in the `resource/[ex]/[ui]` directory
-
-### Installation
-
-- Import `extendedmode.sql` in your database
-- Configure your `server.cfg` to look like this
-
-```
-add_principal group.admin group.user
-add_ace resource.extendedmode command.add_ace allow
-add_ace resource.extendedmode command.add_principal allow
-add_ace resource.extendedmode command.remove_principal allow
-
-start mysql-async
-start extendedmode
-
-start esx_menu_default
-start esx_menu_list
-start esx_menu_dialog
-```
+- A fully configured installation of [mysql-async](https://github.com/brouznouf/fivem-mysql-async) (or equivalent)
 
 ## Legal
 
-### License
+### Licenses
 
-# extendedmode - es_extended community fork
+#### extendedmode - es_extended community fork
 
 All changes after 04/04/2020 are provided by their respective authors under the GNUGPLv3 license.
 
-# es_extended
-es_extended - EssentialMode Extended framework for FiveM
+#### es_extended - EssentialMode Extended framework for FiveM
 
 Copyright (C) 2015-2020 Jérémie N'gadi
 
