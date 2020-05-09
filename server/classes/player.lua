@@ -15,7 +15,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	self.weight = weight
 	self.maxWeight = Config.MaxWeight
 
-	ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
+	ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.identifier, self.group))
 
 	self.triggerEvent = function(eventName, ...)
 		TriggerClientEvent(eventName, self.source, ...)
@@ -82,9 +82,9 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set("group", newGroup) end)
 		end
 
-		ExecuteCommand(('remove_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
+		ExecuteCommand(('remove_principal identifier.%s group.%s'):format(self.identifier, self.group))
 		self.group = newGroup
-		ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
+		ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.identifier, self.group))
 	end
 
 	self.getGroup = function()
@@ -93,7 +93,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 	self.set = function(k, v, recursion)
 		if(not recursion)then
-			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set(k, v) end)
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) if(user)then user.set(k, v) end end)
 		end
 
 		self.variables[k] = v
@@ -223,10 +223,38 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.getInventoryItem = function(name)
+		local found = false
+		local newItem
+
 		for k,v in ipairs(self.inventory) do
 			if v.name == name then
+				found = true
 				return v
 			end
+		end
+
+		-- Ran only if the item wasn't found in your inventory
+		local item = ESX.Items[name]
+
+		-- if item exists -> run
+		if(item)then
+			-- Create new item
+			newItem = {
+				name = name,
+				count = 0,
+				label = item.label,
+				weight = item.weight,
+				limit = item.limit,
+				usable = ESX.UsableItemsCallbacks[name] ~= nil,
+				rare = item.rare,
+				canRemove = item.canRemove
+			}
+
+			-- Insert into players inventory
+			table.insert(self.inventory, newItem)
+
+			-- Return the item that was just added
+			return newItem
 		end
 
 		return
@@ -241,7 +269,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			self.weight = self.weight + (item.weight * count)
 
 			TriggerEvent('esx:onAddInventoryItem', self.source, item.name, item.count)
-			self.triggerEvent('esx:addInventoryItem', item.name, item.count)
+			self.triggerEvent('esx:addInventoryItem', item.name, item.count, false, item)
 		end
 	end
 
